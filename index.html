@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuotesApp</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0-1/css/all.min.css"
+        integrity="sha512-wDB6AYiYP4FO5Sxieamqy9wtpAY3qdHMqlhZecIEUu1YjkLw5gQf/4ZDgOzmCBAF5SheMjmugkpUSVoUrGbLkQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            margin: 0;
+            height: 100vh;
+            background: cornflowerblue;
+            position: relative;
+        }
+
+        .main {
+            width: 50%;
+            margin: auto;
+            /* margin-top: 270px; */
+            position: absolute;
+            left: 25%;
+            top: 270px;
+            background: #FDC830;
+            background: -webkit-linear-gradient(to right, #F37335, #FDC830);
+            background: linear-gradient(to right, #F37335, #FDC830);
+            border: 2px solid black;
+            border-radius: 10px;
+            box-shadow: 0 0 10px 2px black;
+            text-align: center;
+        }
+
+        .main i {
+            /* text-align: left; */
+            float: left;
+            /* margin-left: -10px; */
+            /* left: 0; */
+            padding-top: 20px;
+            padding-left: 10px;
+            /* padding-left: 20px;     */
+        }
+
+        #quote {
+            padding-top: 30px;
+            font-size: 16px;
+        }
+
+        #author {
+            padding: 20px;
+            text-align: right;
+            font-weight: bold;
+        }
+
+        #btn {
+            text-align: center;
+            margin: 10px;
+            padding: 8px 15px;
+            background: chartreuse;
+            border: none;
+            border-radius: 10px;
+            color: white;
+        }
+
+        #btn:hover {
+            background: #a8c0ff;
+            background: -webkit-linear-gradient(to right, #3f2b96, #a8c0ff);
+            background: linear-gradient(to right, #3f2b96, #a8c0ff);
+
+            cursor: pointer;
+        }
+
+        @media (max-width:750px) {
+            .main {
+                width: 75%;
+                left: 12%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="main">
+            <i class="fas fa-quote-left"></i>
+            <div id="quote"></div>
+
+            <div id="author"></div>
+            <button id="btn">New Quotes</button>
+        </div>
+    </div>
+</body>
+<script>
+    const quote = document.getElementById("quote");
+    const author = document.getElementById("author");
+    const btn = document.getElementById("btn");
+    let realData = "";
+    let quotesData = "";
+    const getNewQuotes = () => {
+        let randomNumer = Math.floor(Math.random() * 1600);
+        quotesData = realData[randomNumer];
+        quote.innerHTML = `${quotesData.text}`;
+        quotesData.author == null ? (author.innerHTML = "UnKnown") : (author.innerHTML = `By ${quotesData.author}`);
+    };
+    const getQuotes = async () => {
+        const api = "https://type.fit/api/quotes";
+        try {
+            let data = await fetch(api);
+            realData = await data.json();
+            getNewQuotes();
+        } catch (error) {
+
+        }
+    }
+    btn.addEventListener('click', getNewQuotes);
+    getQuotes();
+</script>
+
+</html>
